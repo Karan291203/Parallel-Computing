@@ -1,0 +1,15 @@
+OPENMP SCOPE AND REDUCTION NOTES
+
+Shared variables:
+A, B, C_parallel and N are accessible by the OpenMP threads.
+
+Private variable:
+The loop variable i is private to each OpenMP iteration/thread.
+
+Reduction:
+parallel_sum uses reduction(+:parallel_sum). Each thread maintains a
+private partial sum, and OpenMP combines the partial sums safely.
+
+An ordinary shared accumulator without synchronization is unsafe because
+multiple threads may read and update the same value concurrently, causing
+a data race and an incorrect sum.
